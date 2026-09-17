@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python Lecture 1 Practice Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eef1f3;
+    --surface: #ffffff;
+    --surface-2: #f5f7f8;
+    --ink: #14202a;
+    --ink-soft: #55676f;
+    --line: #d5dde1;
+    --line-strong: #b9c6cc;
+    --accent: #1f6f68;
+    --accent-soft: #e2efec;
+    --ok: #1c7a4c;
+    --ok-soft: #e1f2e8;
+    --bad: #a83a2b;
+    --bad-soft: #fae9e5;
+    --idle: #8a9aa2;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1518;
+      --surface: #151e22;
+      --surface-2: #1b262b;
+      --ink: #e4ecef;
+      --ink-soft: #9bb0b8;
+      --line: #27343a;
+      --line-strong: #3a4b52;
+      --accent: #4eb3a6;
+      --accent-soft: #16302e;
+      --ok: #5fc98c;
+      --ok-soft: #13301f;
+      --bad: #e8806c;
+      --bad-soft: #351c17;
+      --idle: #6a7c84;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1518;
+    --surface: #151e22;
+    --surface-2: #1b262b;
+    --ink: #e4ecef;
+    --ink-soft: #9bb0b8;
+    --line: #27343a;
+    --line-strong: #3a4b52;
+    --accent: #4eb3a6;
+    --accent-soft: #16302e;
+    --ok: #5fc98c;
+    --ok-soft: #13301f;
+    --bad: #e8806c;
+    --bad-soft: #351c17;
+    --idle: #6a7c84;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.55;
+    padding-bottom: 96px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+  /* header */
+  header { padding: 56px 0 28px; border-bottom: 1px solid var(--line); }
+  h1 { font-size: clamp(28px, 6vw, 40px); line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 14px; font-weight: 700; }
+  .source { color: var(--ink-soft); margin: 0 0 22px; max-width: 60ch; }
+  .source a { color: var(--accent); text-underline-offset: 3px; }
+  .meta { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; }
+  .meta b { color: var(--ink); font-weight: 500; }
+
+  /* part headings */
+  .part { margin: 46px 0 10px; display: flex; align-items: baseline; gap: 12px; }
+  .part h2 { font-size: 20px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+  .part span { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+
+  /* question card */
+  .q {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    margin: 14px 0;
+    display: grid;
+    grid-template-columns: 58px 1fr;
+  }
+  .q-num {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding: 20px 0 20px 18px;
+    border-right: 1px solid var(--line);
+  }
+  .q-body { padding: 20px 22px; min-width: 0; }
+  .q-title { font-weight: 600; margin: 0 0 4px; }
+  .q-text { margin: 0 0 14px; color: var(--ink-soft); }
+  .q-text code, .inline-code { font-family: var(--mono); font-size: 0.9em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; color: var(--ink); }
+
+  pre {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.6;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 12px 14px;
+    margin: 0 0 14px;
+    overflow-x: auto;
+  }
+
+  /* options */
+  .opt { display: block; border: 1px solid var(--line); border-radius: 3px; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; display: flex; gap: 10px; align-items: center; }
+  .opt:hover { border-color: var(--line-strong); }
+  .opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .opt .key { font-family: var(--mono); font-size: 12px; width: 22px; height: 22px; flex: none; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; color: var(--ink-soft); }
+  .opt .val { font-family: var(--mono); font-size: 14px; }
+  .opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+  .opt:has(input:checked) .key { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+  .opt:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* text + textarea inputs */
+  .fill { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .fill label { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); flex: none; }
+  input[type="text"], textarea {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 9px 11px;
+    width: 100%;
+  }
+  textarea { min-height: 140px; resize: vertical; line-height: 1.6; tab-size: 4; }
+  input[type="text"]:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+  .hint { font-size: 14px; color: var(--ink-soft); margin: 0 0 12px; }
+
+  /* sticky action bar */
+  .bar {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    z-index: 5;
+  }
+  .bar .inner { max-width: 760px; margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .count { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
+  button {
+    font-family: var(--sans); font-size: 15px; font-weight: 600;
+    background: var(--accent); color: #fff; border: 0; border-radius: 3px;
+    padding: 11px 20px; cursor: pointer;
+  }
+  button:hover { filter: brightness(1.08); }
+  button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+
+  /* results */
+  #results { display: none; }
+  #results.on { display: block; }
+  .score {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
+    padding: 26px 24px; margin: 30px 0 10px;
+  }
+  .score-top { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .score-num { font-family: var(--mono); font-size: 44px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+  .score-label { color: var(--ink-soft); font-size: 15px; }
+  .track { display: flex; gap: 4px; margin: 20px 0 12px; }
+  .cell { height: 9px; flex: 1; border-radius: 2px; background: var(--line); }
+  .cell.ok { background: var(--ok); }
+  .cell.bad { background: var(--bad); }
+  .legend { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 4px 20px; }
+
+  .rev { background: var(--surface); border: 1px solid var(--line); border-left-width: 3px; border-radius: 4px; margin: 12px 0; padding: 18px 22px; }
+  .rev.ok { border-left-color: var(--ok); }
+  .rev.bad { border-left-color: var(--bad); }
+  .rev.idle { border-left-color: var(--idle); }
+  .rev-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+  .rev-head h3 { font-size: 16px; margin: 0; font-weight: 600; }
+  .tag { font-family: var(--mono); font-size: 11.5px; padding: 3px 8px; border-radius: 3px; flex: none; }
+  .tag.ok { background: var(--ok-soft); color: var(--ok); }
+  .tag.bad { background: var(--bad-soft); color: var(--bad); }
+  .tag.idle { background: var(--surface-2); color: var(--ink-soft); }
+  .row { font-size: 15px; margin: 4px 0; }
+  .row b { font-weight: 500; color: var(--ink-soft); }
+  .row span { font-family: var(--mono); font-size: 14px; }
+  .why { margin: 12px 0 0; font-size: 15px; }
+  .why b { font-weight: 600; }
+  .sub { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); margin: 16px 0 6px; }
+  .checks { margin: 8px 0 0; padding-left: 20px; font-size: 15px; color: var(--ink-soft); }
+  .checks li { margin: 3px 0; }
+  .mark { display: flex; gap: 8px; margin-top: 14px; align-items: center; flex-wrap: wrap; }
+  .mark button { font-size: 14px; padding: 7px 14px; font-weight: 500; background: transparent; color: var(--ink-soft); border: 1px solid var(--line-strong); }
+  .mark button[aria-pressed="true"][data-v="1"] { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+  .mark button[aria-pressed="true"][data-v="0"] { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
+
+  footer { margin: 40px 0 10px; color: var(--ink-soft); font-size: 14px; }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .q { grid-template-columns: 1fr; }
+    .q-num { border-right: 0; border-bottom: 1px solid var(--line); padding: 12px 18px 0; }
+    .q-body { padding: 14px 18px 18px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .rev, .score { animation: rise .28s ease-out both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Variables and data types: practice test</h1>
+    <p class="source">Built from lecture 1 of Shradha Khapra's Python course. Covers variables, data types, comments, operators, type casting and user input.</p>
+    <p class="meta">
+      <span><b>9</b> questions</span>
+      <span><b>4</b> auto graded</span>
+      <span><b>5</b> coding, self checked</span>
+      <span>no timer</span>
+    </p>
+  </header>
+
+  <form id="test">
+    <div class="part"><h2>Concepts</h2><span>graded automatically</span></div>
+
+    <section class="q" id="card-q1">
+      <div class="q-num">01</div>
+      <div class="q-body">
+        <p class="q-title">Which of these is a valid variable name in Python?</p>
+        <label class="opt"><input type="radio" name="q1" value="a"><span class="key">A</span><span class="val">2my_var</span></label>
+        <label class="opt"><input type="radio" name="q1" value="b"><span class="key">B</span><span class="val">my-var</span></label>
+        <label class="opt"><input type="radio" name="q1" value="c"><span class="key">C</span><span class="val">_my_var</span></label>
+        <label class="opt"><input type="radio" name="q1" value="d"><span class="key">D</span><span class="val">def</span></label>
+      </div>
+    </section>
+
+    <section class="q" id="card-q2">
+      <div class="q-num">02</div>
+      <div class="q-body">
+        <p class="q-title">What is the data type of the result of <code class="inline-code">10 / 2</code> in Python 3?</p>
+        <label class="opt"><input type="radio" name="q2" value="a"><span class="key">A</span><span class="val">int</span></label>
+        <label class="opt"><input type="radio" name="q2" value="b"><span class="key">B</span><span class="val">float</span></label>
+        <label class="opt"><input type="radio" name="q2" value="c"><span class="key">C</span><span class="val">str</span></label>
+        <label class="opt"><input type="radio" name="q2" value="d"><span class="key">D</span><span class="val">bool</span></label>
+      </div>
+    </section>
+
+    <section class="q" id="card-q3">
+      <div class="q-num">03</div>
+      <div class="q-body">
+        <p class="q-title">Predict the output</p>
+        <p class="q-text">Type what each print statement puts on screen.</p>
+<pre>x = "10"
+y = 20
+print(int(x) + y)
+print(x + str(y))</pre>
+        <div class="fill"><label for="q3a">line 1</label><input type="text" id="q3a" name="q3a" autocomplete="off" spellcheck="false" placeholder="output of first print"></div>
+        <div class="fill"><label for="q3b">line 2</label><input type="text" id="q3b" name="q3b" autocomplete="off" spellcheck="false" placeholder="output of second print"></div>
+      </div>
+    </section>
+
+    <section class="q" id="card-q4">
+      <div class="q-num">04</div>
+      <div class="q-body">
+        <p class="q-title">What does this expression print?</p>
+<pre>a = 15
+b = 10
+print((a &gt; b) and (a % 2 == 0))</pre>
+        <label class="opt"><input type="radio" name="q4" value="true"><span class="key">A</span><span class="val">True</span></label>
+        <label class="opt"><input type="radio" name="q4" value="false"><span class="key">B</span><span class="val">False</span></label>
+      </div>
+    </section>
+
+    <div class="part"><h2>Coding</h2><span>write it, then compare with the solution</span></div>
+
+    <section class="q" id="card-ex1">
+      <div class="q-num">05</div>
+      <div class="q-body">
+        <p class="q-title">Greeting builder</p>
+        <p class="q-text">Ask for name, age and favourite programming language, then print exactly:<br><span class="inline-code">Hello [Name]! You are [Age] years old and you are learning [Language].</span></p>
+        <textarea name="ex1" spellcheck="false" placeholder="# your code"></textarea>
+      </div>
+    </section>
+
+    <section class="q" id="card-ex2">
+      <div class="q-num">06</div>
+      <div class="q-body">
+        <p class="q-title">Circle area and circumference</p>
+        <p class="q-text">Take the radius as a floating point input. Print area (pi r squared) and circumference (2 pi r). Use 3.14159 for pi.</p>
+        <textarea name="ex2" spellcheck="false" placeholder="# your code"></textarea>
+      </div>
+    </section>
+
+    <section class="q" id="card-ex3">
+      <div class="q-num">07</div>
+      <div class="q-body">
+        <p class="q-title">Total and average marks</p>
+        <p class="q-text">Read marks for 3 subjects out of 100, then print the total and the average with labels.</p>
+        <textarea name="ex3" spellcheck="false" placeholder="# your code"></textarea>
+      </div>
+    </section>
+
+    <section class="q" id="card-ex4">
+      <div class="q-num">08</div>
+      <div class="q-body">
+        <p class="q-title">Simple interest</p>
+        <p class="q-text">Read principal (float), rate (float) and time in years (int). Print simple interest using principal times rate times time, divided by 100.</p>
+        <textarea name="ex4" spellcheck="false" placeholder="# your code"></textarea>
+      </div>
+    </section>
+
+    <section class="q" id="card-ex5">
+      <div class="q-num">09</div>
+      <div class="q-body">
+        <p class="q-title">Greater and even</p>
+        <p class="q-text">Read two integers A and B. Print True when A is strictly greater than B and A is even, otherwise False. No <code class="inline-code">if</code> statements, use the operators directly.</p>
+        <textarea name="ex5" spellcheck="false" placeholder="# your code"></textarea>
+      </div>
+    </section>
+  </form>
+
+  <section id="results" aria-live="polite"></section>
+
+  <footer>Nothing is saved. Reloading the page clears every answer.</footer>
+</div>
+
+<div class="bar">
+  <div class="inner">
+    <span class="count" id="count">0 of 9 answered</span>
+    <div style="display:flex;gap:8px">
+      <button type="button" class="ghost" id="reset">Start over</button>
+      <button type="button" id="submit">Check answers</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var MCQ = [
+    {
+      id: 'q1', n: '01', title: 'Valid variable name',
+      correct: 'c', label: { a: '2my_var', b: 'my-var', c: '_my_var', d: 'def' },
+      why: 'A name can start with a letter or an underscore, never a digit. Hyphens are not allowed because Python reads the hyphen as minus, so my-var is my minus var. And def is a reserved keyword, so it cannot be used as a name.'
+    },
+    {
+      id: 'q2', n: '02', title: 'Type of 10 / 2',
+      correct: 'b', label: { a: 'int', b: 'float', c: 'str', d: 'bool' },
+      why: 'The single slash is true division and always returns a float in Python 3, so 10 / 2 gives 5.0. Use floor division 10 // 2 when you want the int 5.'
+    },
+    {
+      id: 'q4', n: '04', title: 'Logical and relational operators',
+      correct: 'false', label: { 'true': 'True', 'false': 'False' },
+      why: 'a > b is True, but 15 % 2 is 1, so a % 2 == 0 is False. The and operator needs both sides True, so the result is False.'
+    }
+  ];
+
+  var FILL = {
+    id: 'q3', n: '03', title: 'Predict the output',
+    answers: { q3a: ['30'], q3b: ['1020'] },
+    why: 'int(x) turns the string "10" into the number 10, so the first line is arithmetic: 10 + 20 is 30. On the second line str(y) turns 20 into "20", so the plus joins two strings instead of adding them and you get 1020. Same operator, different behaviour depending on the types.'
+  };
+
+  var CODE = [
+    {
+      id: 'ex1', n: '05', title: 'Greeting builder',
+      sol: 'name = input("Enter your name: ")\nage = input("Enter your age: ")\nlanguage = input("Enter your favorite programming language: ")\n\nprint("Hello " + name + "! You are " + age + " years old and you are learning " + language + ".")',
+      checks: [
+        'input() already returns a string, so no casting is needed here.',
+        'Concatenation with + only works between strings, joining a string and an int raises TypeError.',
+        'An f-string is cleaner: print(f"Hello {name}! You are {age} years old and you are learning {language}.")'
+      ]
+    },
+    {
+      id: 'ex2', n: '06', title: 'Circle area and circumference',
+      sol: 'radius = float(input("Enter radius of the circle: "))\npi = 3.14159\n\narea = pi * (radius ** 2)\ncircumference = 2 * pi * radius\n\nprint("Area of circle:", area)\nprint("Circumference of circle:", circumference)',
+      checks: [
+        'float(input(...)) is required, otherwise radius stays a string and the maths fails.',
+        '** is the power operator, radius ** 2 or radius * radius both work.',
+        'print with a comma inserts a space and handles the number, no manual casting needed.'
+      ]
+    },
+    {
+      id: 'ex3', n: '07', title: 'Total and average marks',
+      sol: 'sub1 = float(input("Enter marks for Subject 1: "))\nsub2 = float(input("Enter marks for Subject 2: "))\nsub3 = float(input("Enter marks for Subject 3: "))\n\ntotal = sub1 + sub2 + sub3\naverage = total / 3\n\nprint("Total Marks:", total)\nprint("Average Marks:", average)',
+      checks: [
+        'Cast each input, three separate float() calls.',
+        'Divide by 3 with the single slash so the average keeps its decimals.',
+        'Percentage out of 300 is the same number here: total / 300 * 100.'
+      ]
+    },
+    {
+      id: 'ex4', n: '08', title: 'Simple interest',
+      sol: 'p = float(input("Enter Principal amount: "))\nr = float(input("Enter Interest Rate (%): "))\nt = int(input("Enter Time (years): "))\n\nsi = (p * r * t) / 100\nprint("Simple Interest:", si)',
+      checks: [
+        'Principal and rate are float, time in years is int, matching the question.',
+        'Keep the multiplication in brackets before dividing by 100 so precedence is obvious.',
+        'The result is a float because p and r are floats.'
+      ]
+    },
+    {
+      id: 'ex5', n: '09', title: 'Greater and even',
+      sol: 'a = int(input("Enter first number (A): "))\nb = int(input("Enter second number (B): "))\n\nresult = (a > b) and (a % 2 == 0)\nprint("Is A greater than B and even?:", result)',
+      checks: [
+        'A comparison already produces a bool, so no if is needed.',
+        '% gives the remainder, a % 2 == 0 is the even test.',
+        'Brackets are optional here but they make the two conditions readable.'
+      ]
+    }
+  ];
+
+  var TOTAL = 9;
+  var form = document.getElementById('test');
+  var results = document.getElementById('results');
+  var countEl = document.getElementById('count');
+  var selfMarks = {};
+
+  function answered() {
+    var n = 0;
+    MCQ.forEach(function (q) { if (form.querySelector('input[name="' + q.id + '"]:checked')) n++; });
+    if (form.q3a.value.trim() || form.q3b.value.trim()) n++;
+    CODE.forEach(function (e) { if (form[e.id].value.trim()) n++; });
+    return n;
+  }
+
+  function updateCount() {
+    countEl.textContent = answered() + ' of ' + TOTAL + ' answered';
+  }
+  form.addEventListener('input', updateCount);
+  form.addEventListener('change', updateCount);
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  function row(labelText, valueText) {
+    var p = el('p', 'row');
+    p.appendChild(el('b', null, labelText + ' '));
+    p.appendChild(el('span', null, valueText));
+    return p;
+  }
+
+  function why(text) {
+    var p = el('p', 'why');
+    p.appendChild(el('b', null, 'Why: '));
+    p.appendChild(document.createTextNode(text));
+    return p;
+  }
+
+  function render() {
+    results.innerHTML = '';
+    selfMarks = {};
+
+    var states = [];
+    var blocks = [];
+
+    // MCQ q1, q2
+    function mcqBlock(q) {
+      var picked = form.querySelector('input[name="' + q.id + '"]:checked');
+      var val = picked ? picked.value : null;
+      var state = val === null ? 'idle' : (val === q.correct ? 'ok' : 'bad');
+
+      var card = el('article', 'rev ' + state);
+      var head = el('div', 'rev-head');
+      head.appendChild(el('h3', null, q.n + '  ' + q.title));
+      head.appendChild(el('span', 'tag ' + state, state === 'ok' ? 'correct' : state === 'bad' ? 'wrong' : 'skipped'));
+      card.appendChild(head);
+      card.appendChild(row('Your answer:', val ? q.label[val] : 'not attempted'));
+      card.appendChild(row('Correct answer:', q.label[q.correct]));
+      card.appendChild(why(q.why));
+      return { state: state, node: card };
+    }
+
+    var b1 = mcqBlock(MCQ[0]); states.push(b1.state); blocks.push(b1.node);
+    var b2 = mcqBlock(MCQ[1]); states.push(b2.state); blocks.push(b2.node);
+
+    // fill in the blanks q3
+    (function () {
+      var a = form.q3a.value.trim();
+      var b = form.q3b.value.trim();
+      var got = a !== '' || b !== '';
+      var okA = FILL.answers.q3a.indexOf(a) > -1;
+      var okB = FILL.answers.q3b.indexOf(b) > -1;
+      var state = !got ? 'idle' : (okA && okB ? 'ok' : 'bad');
+
+      var card = el('article', 'rev ' + state);
+      var head = el('div', 'rev-head');
+      head.appendChild(el('h3', null, FILL.n + '  ' + FILL.title));
+      head.appendChild(el('span', 'tag ' + state, state === 'ok' ? 'correct' : state === 'bad' ? 'wrong' : 'skipped'));
+      card.appendChild(head);
+      card.appendChild(row('Your line 1:', a || 'blank'));
+      card.appendChild(row('Your line 2:', b || 'blank'));
+      card.appendChild(row('Correct output:', '30  then  1020'));
+      card.appendChild(why(FILL.why));
+      states.push(state); blocks.push(card);
+    })();
+
+    // q4
+    var b4 = mcqBlock(MCQ[2]); states.push(b4.state); blocks.push(b4.node);
+
+    // coding
+    CODE.forEach(function (ex, i) {
+      var written = form[ex.id].value.trim();
+      var state = written ? 'idle' : 'idle';
+      var card = el('article', 'rev idle');
+      card.id = 'rev-' + ex.id;
+
+      var head = el('div', 'rev-head');
+      head.appendChild(el('h3', null, ex.n + '  ' + ex.title));
+      var tag = el('span', 'tag idle', written ? 'self check' : 'not attempted');
+      head.appendChild(tag);
+      card.appendChild(head);
+
+      if (written) {
+        card.appendChild(el('p', 'sub', 'your code'));
+        var yours = el('pre', null, written);
+        card.appendChild(yours);
+      }
+
+      card.appendChild(el('p', 'sub', 'reference solution'));
+      card.appendChild(el('pre', null, ex.sol));
+
+      var ul = el('ul', 'checks');
+      ex.checks.forEach(function (c) { ul.appendChild(el('li', null, c)); });
+      card.appendChild(ul);
+
+      var mark = el('div', 'mark');
+      var yes = el('button', null, 'Mine works');
+      yes.type = 'button'; yes.dataset.v = '1'; yes.setAttribute('aria-pressed', 'false');
+      var no = el('button', null, 'I missed it');
+      no.type = 'button'; no.dataset.v = '0'; no.setAttribute('aria-pressed', 'false');
+
+      function set(v) {
+        selfMarks[ex.id] = v;
+        yes.setAttribute('aria-pressed', v === 1 ? 'true' : 'false');
+        no.setAttribute('aria-pressed', v === 0 ? 'true' : 'false');
+        card.className = 'rev ' + (v === 1 ? 'ok' : 'bad');
+        tag.className = 'tag ' + (v === 1 ? 'ok' : 'bad');
+        tag.textContent = v === 1 ? 'correct' : 'wrong';
+        score();
+      }
+      yes.addEventListener('click', function () { set(1); });
+      no.addEventListener('click', function () { set(0); });
+      mark.appendChild(yes); mark.appendChild(no);
+      card.appendChild(mark);
+
+      states.push(state); blocks.push(card);
+    });
+
+    // score panel
+    var panel = el('section', 'score');
+    var top = el('div', 'score-top');
+    var num = el('span', 'score-num', '0 / 9');
+    var lab = el('span', 'score-label', '');
+    top.appendChild(num); top.appendChild(lab);
+    panel.appendChild(top);
+    var track = el('div', 'track');
+    for (var i = 0; i < TOTAL; i++) track.appendChild(el('span', 'cell'));
+    panel.appendChild(track);
+    var legend = el('p', 'legend', '');
+    panel.appendChild(legend);
+
+    results.appendChild(panel);
+    blocks.forEach(function (b) { results.appendChild(b); });
+
+    var again = el('div', 'mark');
+    var retake = el('button', 'ghost', 'Start over');
+    retake.type = 'button';
+    retake.addEventListener('click', reset);
+    again.appendChild(retake);
+    results.appendChild(again);
+
+    function score() {
+      var auto = 0, autoAttempted = 0;
+      var s = states.slice(0, 4);
+      s.forEach(function (st) { if (st !== 'idle') autoAttempted++; if (st === 'ok') auto++; });
+      var selfOk = 0, selfDone = 0;
+      CODE.forEach(function (ex) {
+        if (selfMarks[ex.id] !== undefined) { selfDone++; if (selfMarks[ex.id] === 1) selfOk++; }
+      });
+      var total = auto + selfOk;
+      num.textContent = total + ' / ' + TOTAL;
+      lab.textContent = 'concepts ' + auto + ' of 4, coding ' + selfOk + ' of 5';
+
+      var cells = track.children;
+      for (var i = 0; i < 4; i++) {
+        cells[i].className = 'cell' + (s[i] === 'ok' ? ' ok' : s[i] === 'bad' ? ' bad' : '');
+      }
+      CODE.forEach(function (ex, i) {
+        var v = selfMarks[ex.id];
+        cells[4 + i].className = 'cell' + (v === 1 ? ' ok' : v === 0 ? ' bad' : '');
+      });
+
+      var pending = 5 - selfDone;
+      legend.textContent = pending > 0
+        ? 'Read each solution below and mark your own code. ' + pending + ' coding question' + (pending === 1 ? '' : 's') + ' still unmarked.'
+        : (total >= 8 ? 'Solid. Move on to conditionals.' : total >= 5 ? 'Decent. Redo the ones marked wrong before moving on.' : 'Rewatch the casting and operators part, then retake this.');
+    }
+
+    score();
+    results.classList.add('on');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function reset() {
+    form.reset();
+    selfMarks = {};
+    results.classList.remove('on');
+    results.innerHTML = '';
+    updateCount();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.getElementById('submit').addEventListener('click', render);
+  document.getElementById('reset').addEventListener('click', reset);
+  updateCount();
+})();
+</script>
+</body>
+</html>
